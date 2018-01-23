@@ -5,5 +5,13 @@ OUT/*.vtu
 ghost
 DATA/*.sph
 Log.out
+MANUAL/manual.log
+MANUAL/manual.bbl
+MANUAL/manual.blg
+MANUAL/manual.toc
+MANUAL/manual.aux
+MANUAL/manual.pdf
+*.log
+.DS*
 
 

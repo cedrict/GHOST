@@ -1,0 +1,172 @@
+ \subsection{\tt allocate\_block\_memory}
+ This subroutine assigns to every block {\sl i} a number of node 
+ points {\sl block(i)\%np} and a number of cells {\sl block(i)\%ncell}  
+ The number of vertices per cell is also stored in {\sl block(i)\%nv}.
+ It then loops over all blocks and allocates the required arrays 
+ to store the mesh nodes position in Cartesian and spherical coordinates
+ and the connectivity.  
+ \subsection{\tt block\_node\_layout}
+ This subroutine generates the position of the mesh node points for each 
+ block as well as their connectivity (i.e. the list of nodes making 
+ each element. 
+ \begin{center}
+ \includegraphics[width=8cm]{images/basics}\\
+ {\small a) block layout for mtype=3,4; b) block layout for mtype=5}
+ \end{center}
+ In the case that the block is a quadrilateral, it is assumed that 
+ it is made of $l \times l$ quadrilateral cells. In the case that the block is a 
+ triangle, it is made of $l^2$ triangular cells.
+ \subsection{\tt build\_hollow\_sphere}
+ This subroutine first makes a copy of the current shell into {\sl shell\_temp}
+ It then computes the number of mesh nodes and cells for the hollow sphere
+ and allocate all arrays accordingly.
+ It then loops over layers, places the temporary shell at the required 
+ radius, and appends it to the current hollow sphere mesh from the inside out.
+ \subsection{\tt check\_parameters}
+ \subsection{\tt }
+ \subsection{\tt hexahedron\_volume}
+ This function computes the volume of any hexahedron, 
+ following Eq.(12) of \cite{gran97}.
+ \subsection{\tt compute\_gravity\_at\_point}
+ This subroutine receives as argument the coordinates {\tt x,y,z} of a point and 
+ returns the gravity vector components {\tt gx,gy,gz} at this location 
+ by means of 
+ \[
+ {\bm g}({\bm r}') = \int_\Omega {\cal G} \frac{\rho({\bm r})-\rho_0}{|{\bm r}'-{\bm r}|^3} ({\bm r}'-{\bm r}) d\Omega
+ \] 
+ where $\rho_0=${\tt refdensgrav}.
+ The gravitational potential is computed as follows:
+ \[
+ U({\bm r}') = -\int_\Omega {\cal G} \frac{\rho({\bm r})-\rho_0}{|{\bm r}'-{\bm r}|}  d\Omega
+ \]
+ \subsection{\tt compute\_gravity\_on\_line}
+ This subroutine computes on a line parametrised by $0\leq r \leq 2R_2$,
+ $\theta=13^\circ$ and $\phi=17^\circ$. This line is discretised 
+ over npts points. At each point is the subroutine compute\_gravity\_at\_point called.
+ \subsection{\tt compute\_hollow\_sphere\_volume}
+ \subsection{\tt compute\_normals\_hollow\_sphere}
+ \subsection{\tt compute\_r\_theta\_phi\_hollow\_sphere}
+ This subroutine computes $r$, $\theta$ and $\phi$ from $x,y,z$ for all 
+ nodes of the hollow\_sphere mesh with
+ \[
+ r=\sqrt{x^2+y^2+z^2}
+ \]
+ \[
+ \theta=\cos^{-1}(z/r)
+ \]
+ \[
+ \phi=\tan^{-1}_2 (y/x)
+ \]
+ \subsection{\tt compute\_r\_theta\_phi\_shell}
+ This subroutine computes $r$, $\theta$ and $\phi$ from $x,y,z$ for all 
+ nodes of the shell mesh with
+ \[
+ r=\sqrt{x^2+y^2+z^2}
+ \]
+ \[
+ \theta=\cos^{-1}(z/r)
+ \]
+ \[
+ \phi=\tan^{-1}_2 (y/x)
+ \]
+ \subsection{\tt compute\_shell\_area}
+ \subsection{\tt compute\_shell\_distributions}
+ \subsection{\tt compute\_triangle\_area}
+ {\tt https://en.wikipedia.org/wiki/Heron\%27s\_formula }
+ Heron's formula states that the area of a triangle whose sides have lengths a, b, and c is
+ \[
+ A=\sqrt{s(s-a)(s-b)(s-c)}
+ \]
+ where s is the semiperimeter of the triangle; that is,
+ \[
+ s=\frac{a+b+c}{2}
+ \]
+ \subsection{\tt generate\_quadrature\_points}
+ \begin{center}
+ \includegraphics[width=6cm]{images/elements}
+ \end{center}
+ For hexahedral elements the linear shape functions are:
+ \begin{eqnarray}
+ N_1(r,s,t) &=& (1-r)(1-s)(1-t)/8 \nonumber\\ 
+ N_2(r,s,t) &=& (1+r)(1-s)(1-t)/8 \nonumber\\ 
+ N_3(r,s,t) &=& (1+r)(1+s)(1-t)/8 \nonumber\\ 
+ N_4(r,s,t) &=& (1-r)(1+s)(1-t)/8 \nonumber\\ 
+ N_5(r,s,t) &=& (1-r)(1-s)(1+t)/8 \nonumber\\ 
+ N_6(r,s,t) &=& (1+r)(1-s)(1+t)/8 \nonumber\\ 
+ N_7(r,s,t) &=& (1+r)(1+s)(1+t)/8 \nonumber\\ 
+ N_8(r,s,t) &=& (1-r)(1+s)(1+t)/8 \nonumber
+ \end{eqnarray}
+ For the triangular prism elements the linear shape functions are:
+ \begin{eqnarray}
+ N_1(r,s,t) &=& (1-r-s)(1-t)/2 \nonumber\\ 
+ N_2(r,s,t) &=& r(1-t)/2 \nonumber\\ 
+ N_3(r,s,t) &=& s(1-t)/2 \nonumber\\ 
+ N_4(r,s,t) &=& (1-r-s)(1+t)/2 \nonumber\\ 
+ N_5(r,s,t) &=& r(1+t)/2 \nonumber\\ 
+ N_6(r,s,t) &=& s(1+t)/2 \nonumber
+ \end{eqnarray}
+ \subsection{\tt map\_blocks}
+ \subsubsection{HS06 - cubed sphere}
+ See section 3.1 of \cite{puli07}
+ \subsubsection{HS12 - CitcomS mesh}
+ \subsubsection{HS20 - Icosahedron}
+ Let $t=(1+\sqrt{5})/2$, then the vertices of the icosahedron are 
+ \[
+ {\bm x}_0=\frac{1}{\sqrt{1+t^2}}(t,1,0) \quad\quad {\bm x}_6=\frac{1}{\sqrt{1+t^2}}(-1,0,t)
+ \]
+ \[
+ {\bm x}_1=\frac{1}{\sqrt{1+t^2}}(-t,1,0) \quad\quad {\bm x}_7=\frac{1}{\sqrt{1+t^2}}(-1,0,-t)
+ \]
+ \[
+ {\bm x}_2=\frac{1}{\sqrt{1+t^2}}(t,-1,0) \quad\quad {\bm x}_8=\frac{1}{\sqrt{1+t^2}}(0,t,1)
+ \]
+ \[
+ {\bm x}_3=\frac{1}{\sqrt{1+t^2}}(-t,-1,0) \quad\quad {\bm x}_9=\frac{1}{\sqrt{1+t^2}}(0,-t,1)
+ \]
+ \[
+ {\bm x}_4=\frac{1}{\sqrt{1+t^2}}(1,0,t) \quad\quad {\bm x}_{10}=\frac{1}{\sqrt{1+t^2}}(0,t,-1)
+ \]
+ \[
+ {\bm x}_5=\frac{1}{\sqrt{1+t^2}}(1,0,-t) \quad\quad {\bm x}_{11}=\frac{1}{\sqrt{1+t^2}}(0,-t,-1)
+ \]
+ It is obvious that all points lie on a sphere of unit radius.
+
+ The triangles are as follows:
+ \[  T_0=[0,8,4]  \quad\quad T_{10}=[2,9,11]   \]
+ \[  T_1=[0,5,10] \quad\quad T_{11}=[3,11,9]   \]
+ \[  T_2=[2,4,9]  \quad\quad T_{12}=[4,2,0]   \]
+ \[  T_3=[2,11,5] \quad\quad T_{13}=[5,0,2]   \]
+ \[  T_4=[1,6,8]  \quad\quad T_{14}=[6,1,3]   \]
+ \[  T_5=[1,10,7] \quad\quad T_{15}=[7,3,1]   \]
+ \[  T_6=[3,9,6]  \quad\quad T_{16}=[8,6,4]   \]
+ \[  T_7=[3,7,11] \quad\quad T_{17}=[9,4,6]   \]
+ \[  T_8=[0,10,8] \quad\quad T_{18}=[10,5,7]   \]
+ \[  T_9=[1,8,10] \quad\quad T_{19}=[11,7,5]   \]
+ Graphically, the mesh has the following structure:
+ \begin{center}
+ \includegraphics[width=12cm]{images/flat_icosahedron}
+ \end{center}
+ \subsection{\tt merge\_blocks}
+ \subsection{\tt output\_blocks\_vtu}
+ \subsection{\tt output\_hollow\_sphere\_vtu}
+ \subsection{\tt output\_shell\_ascii}
+ \subsection{\tt output\_shell\_lat\_lon}
+ This subroutine exports $\theta$ and $\phi$ values of all points on the 
+ shell in the file {\sl shell\_theta\_phi.dat} in {\sl OUT}.
+ \subsection{\tt output\_shell\_vtu}
+ If {\sl generate\_vtu\_output} is true 
+ a vtu file of the shell is created in {\sl OUT}.
+ \subsection{\tt project\_on\_sphere}
+ This subroutine gets a radius $r$ value as argument and the current coordinates
+ of a point. It returns the new coordinates of the point on a sphere 
+ of radius $r$ with the same $\theta,\phi$.
+ \subsection{\tt read\_command\_line\_options}
+ This subroutine reads in the command line arguments
+ \subsection{\tt read\_s40rts}
+ \subsection{\tt }
+ \subsection{\tt write\_positions}
+ \subsection{\tt write\_field\_dp}
+ \subsection{\tt write\_field\_int}
+ \subsection{\tt write\_icon}
+ \subsection{\tt write\_offsets}
+ \subsection{\tt write\_types}

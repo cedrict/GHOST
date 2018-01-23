@@ -1,0 +1,9 @@
+grep -h @@ *.f90 > code.tex
+sed 's/!@@//g' code.tex > code2.tex
+mv code2.tex code.tex
+mv code.tex ./MANUAL/
+cd MANUAL
+pdflatex --shell-escape  manual.tex
+bibtex manual
+open -a /Applications/Preview.app/ manual.pdf
+
