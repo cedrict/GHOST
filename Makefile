@@ -6,6 +6,7 @@ FLAGS= -c -ffree-line-length-none -Wall -Wextra -fPIC -fmax-errors=1 -g -fcheck=
 
 OBJECTS2D =\
 module_structures.o\
+module_S40RTS.o\
 allocate_block_memory.o\
 block_node_layout.o\
 build_hollow_sphere.o\
@@ -27,7 +28,6 @@ laypts3.o\
 laypts4.o\
 map_blocks.o\
 merge_blocks.o\
-module_S40RTS.o\
 output_blocks_vtu.o\
 output_blocks_ascii.o\
 output_shell_ascii.o\

@@ -1,0 +1,6 @@
+*.o
+fort*
+OUT/*.vtu
+*.mod
+ghost
+
