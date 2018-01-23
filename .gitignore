@@ -3,4 +3,7 @@ fort*
 OUT/*.vtu
 *.mod
 ghost
+DATA/*.sph
+Log.out
+
 
