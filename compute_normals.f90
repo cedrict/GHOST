@@ -21,6 +21,10 @@ real(8) :: z1,z2,z3,z4,z5,z6,z7,z8
 
 !==================================================================================================!
 !@@ \subsection{\tt compute\_normals\_hollow\_sphere}
+!@@ This routine computes the normal vector to the inner and outer boundaries of the 3D mesh
+!@@ at the nodes. 
+!@@ The vector is an average of several normal vectors computed on the cells containg the 
+!@@ node in question.
 !==================================================================================================!
 
 call cpu_time(t3)

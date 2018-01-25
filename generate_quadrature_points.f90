@@ -20,9 +20,17 @@ call cpu_time(t3)
 
 !==================================================================================================!
 !@@ \subsection{\tt generate\_quadrature\_points}
+!@@ This routine computes the location of all quadrature points
+!@@ \footnote{https://en.wikipedia.org/wiki/Gaussian\_quadrature} of the mesh. 
+!@@ If the mesh is based on hexahedra (HS06,HS12) each cell counts 2x2x2 quadrature points
+!@@ each with a weight of 1.
 !@@ \begin{center}
 !@@ \includegraphics[width=6cm]{images/elements}
 !@@ \end{center}
+!@@ If the mesh is based on triangular prisms (HS20) it has 2x3 quadrature points, 
+!@@ (2 in the radial direction and 3 in the triangular plane) and the weights are 1/6.
+!@@ All q-points are generated in the reference cell and then mapped out to real 
+!@@ cells by means of a linear mapping.
 !@@ For hexahedral elements the linear shape functions are:
 !@@ \begin{eqnarray}
 !@@ N_1(r,s,t) &=& (1-r)(1-s)(1-t)/8 \nonumber\\ 

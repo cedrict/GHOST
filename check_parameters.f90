@@ -15,6 +15,7 @@ implicit none
 
 !==================================================================================================!
 !@@ \subsection{\tt check\_parameters}
+!@@ This routine performs a basic check on the nblock, level and nlayer parameter values.
 !==================================================================================================!
 
 write(iunit,*) 'nblock=',nblock
@@ -23,6 +24,7 @@ if (level>1) then
 else
    stop 'level too small'
 end if
+
 if (nlayer>1) then
    write(iunit,*) 'nlayer=',nlayer
 else

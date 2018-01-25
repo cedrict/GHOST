@@ -15,7 +15,9 @@ real(8), intent(out):: densprem
 real(8) x
 
 !==================================================================================================!
-!@@ \subsection{\tt }
+!@@ \subsection{\tt compute\_PREM\_density}
+!@@ This routine gets a radius $r<6371$km and returns the density 
+!@@ as given by the PREM model \cite{dzan81}. 
 !==================================================================================================!
 
 

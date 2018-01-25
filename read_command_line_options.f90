@@ -28,7 +28,6 @@ if (numarg>0) then
 
    argc=command_argument_count() 
 
-
    do while (option_ID <= argc)
    call getarg(option_ID,arg)
 

@@ -17,7 +17,7 @@ real(8), intent(out) :: r,theta,phi
 !==================================================================================================!
 !@@ \subsection{\tt project\_on\_sphere}
 !@@ This subroutine gets a radius $r$ value as argument and the current coordinates
-!@@ of a point. It returns the new coordinates of the point on a sphere 
+!@@ of a point. It returns the new Cartesian coordinates of the point on a sphere 
 !@@ of radius $r$ with the same $\theta,\phi$.
 !==================================================================================================!
 

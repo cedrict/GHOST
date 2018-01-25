@@ -19,6 +19,8 @@ integer, parameter :: uunit=123
 
 !==================================================================================================!
 !@@ \subsection{\tt output\_blocks\_vtu}
+!@@ If the {\sl generate\_vtu\_output} flag is true, 
+!@@ it generates a vtu file for each block in the {\sl OUT} folder.
 !==================================================================================================!
 
 call cpu_time(t3)

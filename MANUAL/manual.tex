@@ -9,10 +9,103 @@
 \begin{document}
 
 \maketitle
+
+\begin{center}
+\includegraphics[width=4cm]{ghost}
+\end{center}
+
 \tableofcontents
+
+Please contact me if you need a new feature or if you wish to contribute to GHOST at 
+c.thieulot@uu.nl
 
 %---------------------------------
 \section{Introduction}
+
+The open source code library {\sc ghost} allows 
+three different types of hollow sphere meshes to be built
+, i.e. meshes bounded by two concentric spheres:
+
+\begin{itemize}
+\item 
+The cubed sphere ('HS06'), composed of 6 blocks which 
+are themselves subdivided into $N_b \times N_b$ quadrilateral shaped cells  \cite{sado72,roip96,heta03,busa13}.
+%3 types: conformal \cite{rapm96,mcgr96}, obtained with elliptic solvers/spring dynamics \cite{puli07}, 
+%gnomonic  \cite{sado72,mcgr96}
+Four types of cubed spheres meshes have been proposed: the conformal, elliptic, gnomonic and spring types \cite{puli07}.
+However only gnomonic meshes are considered here: these are obtained by inscribing a cube within a sphere and expanding to the surface
+of the sphere.
+The cubed sphere has recently been used in large-scale mantle convection simulation in conjunction with 
+Adaptive Mesh Refinement \cite{algs12,busa13}.  
+
+\item 
+The CitcomS mesh ('HS12') composed of 12 blocks also subdivided 
+into $N_b \times N_b$ quadrilateral shaped cells
+\cite{zhzm00,sthh06,zhmt08,arfw14}.
+Note that ASPECT \cite{krhb12,hedg17}, a relatively new code aimed at superseeding CitcomS can generate and use 
+this type of mesh \cite{thie17} but is not limited to it.
+
+\item The icosahedral mesh ('HS20') composed of 20 triangular blocks \cite{bafr85,baum85} subdivided into triangles, which is 
+used in the TERRA code \cite{burb96,burb97,burl98,dadb13}.
+\end{itemize}
+
+Given the regularity and symmetry of these meshes determining the location of the 
+mesh nodes in space is a relatively straightforward task. Building the mesh connectivity in an 
+efficient manner is where the difficulty lies.
+
+The approach to building all three meshes is identical:
+\begin{enumerate}
+\item A reference square or triangle is populated with cells, as shown in Fig. (\ref{basics}) 
+parametrised by a level $l$: the square is subdivided into $l\times l$ quadrilaterals while 
+the triangle is subdivided into $l^2$ triangles.
+
+\item This reference square or triangle is then replicated {\sl nblock} times (6, 12 or 20) and mapped
+onto a portion of a unit sphere. The blocks are such that their union covers a full sphere
+but they cannot overlap except at the edges, see Fig. (\ref{3shell}).
+
+\item All block meshes are then merged together to generate a shell mesh. 
+\item Shell meshes are replicated {\sl nlayer+1} times outwards with increasing radii. 
+\item The {\sl nlayer} shells are then merged together to form a hollow sphere mesh, as shown in 
+Fig. (\ref{balls}).
+\end{enumerate}
+
+In Table (\ref{tabv}) the number of nodes and cells for a variety of resolutions 
+for all three mesh types is reported. Looking at the CitcomS literature of the past 20 years, we find that 
+the mesh data presented in this table cover the various resolutions used, e.g.
+$12\times48^3$ \cite{mczh04,arfw14}, $12\times64^3$ \cite{budt14}
+$12\times96^3$ \cite{bumb10}, $12\times128^3$ \cite{beck06,wele16,welm16}.
+Note that in the case of the HS06 and HS12 meshes the mesh nodes are mapped out to the 6 or 12 blocks 
+following either an equidistant or equiangle approach as shown in Fig. (\ref{equis2}) (see \cite{puli07}
+for details on both approaches). 
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=12cm]{images/basic_shapes/basics}
+\caption{Reference square and triangles meshes at level 5 \label{basics}}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=.3\linewidth]{images/3HS/shell_HS06}
+\includegraphics[width=.3\linewidth]{images/3HS/shell_HS12}
+\includegraphics[width=.3\linewidth]{images/3HS/shell_HS20}
+\caption{From left to right: HS06, HS12 and HS20 shells coloured by block number. \label{3shell}}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=12cm]{images/3HS/3HS}
+\caption{a) HS06 mesh composed of 6 blocks containing each $6^3$ cells; b) HS12 mesh composed of 12 blocks containing each 
+$6^3$ cells; e) HS20 mesh composed of 20 blocks containing each $6^3$ cells. \label{balls}}
+\end{figure}
+
+
+
+
+
+
+
+
 
 
 
@@ -49,30 +142,30 @@ In geography one uses latitude and longitude, represented hereunder:
 
 The code can be compiled by typing {\sl make}. The default compiler is {\sl gfortran}
 but it can be changed by editing the {\sl Makefile}. 
-Running {\sl make} generates the {\sl spider} executable which can then be run as follows
+Running {\sl make} generates the {\sl ghost} executable which can then be run as follows
 in a terminal:
 
 \begin{verbatim}
-> ./spider
+> ./ghost
 \end{verbatim}
 
 If you wish to know which options are available, simply do 
 \begin{verbatim}
-> ./spider --help
+> ./ghost --help
 \end{verbatim}
 
 Options are as follows:
 \begin{itemize}
 \item {\tt -level X} where X is an integer number strictly larger than 2.
 \item {\tt -nlayer X} where X is an integer number strictly larger than 2.
-\item {\tt -mtype X} where X is equal to 3,4,5 
+\item {\tt -mtype X} where X is equal to 6,12,20
 \item {\tt -equiangular X} where X is 0 (false) or 1 (true) 
 \end{itemize}
 
 For instance, if you wish to generate a HS06 mesh of block level 16
 with 20 layers in the radial direction with equiangular spacing:
 \begin{verbatim}
-./spider -level 16 -mtype 3 -nlayer 20 -equiangular 1
+./ghost -level 16 -mtype 6 -nlayer 20 -equiangular 1
 \end{verbatim}
 
 Note that a clean option exists to remove all compilation files and output files:
@@ -80,20 +173,35 @@ Note that a clean option exists to remove all compilation files and output files
 > make clean 
 \end{verbatim}
 
-Data presented in the paper were obtained by running the shell script:
-\begin{verbatim}
-> ./script_paper 
-\end{verbatim}
+%Data presented in the paper were obtained by running the shell script:
+%\begin{verbatim}
+%> ./script_paper 
+%\end{verbatim}
+
+\newpage
+
+You can then open the file {\sl hollow\_sphere.vtu} in Paraview:
+
+
+\includegraphics[width=6cm]{images/tas/r}
+\includegraphics[width=6cm]{images/tas/theta}
+\includegraphics[width=6cm]{images/tas/phi}
+
+
+\includegraphics[width=6cm]{images/tas/inner}
+\includegraphics[width=6cm]{images/tas/outer}
+\includegraphics[width=6cm]{images/tas/blocknb}
+
+\includegraphics[width=8cm]{images/tas/volume}
+\includegraphics[width=8cm]{images/tas/normals}
+
+\newpage
 
 
 \section{Subroutines}
 \input{code}
 
-\section{To do ...}
-
-\begin{itemize}
-\item ...
-\end{itemize}
-
+\bibliographystyle{plain}
+\bibliography{../../../../../biblio_geosciences2}
 
 \end{document}

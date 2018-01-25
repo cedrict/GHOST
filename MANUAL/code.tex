@@ -23,7 +23,10 @@
  It then loops over layers, places the temporary shell at the required 
  radius, and appends it to the current hollow sphere mesh from the inside out.
  \subsection{\tt check\_parameters}
- \subsection{\tt }
+ This routine performs a basic check on the nblock, level and nlayer parameter values.
+ \subsection{\tt compute\_PREM\_density}
+ This routine gets a radius $r<6371$km and returns the density 
+ as given by the PREM model \cite{dzan81}. 
  \subsection{\tt hexahedron\_volume}
  This function computes the volume of any hexahedron, 
  following Eq.(12) of \cite{gran97}.
@@ -44,7 +47,14 @@
  $\theta=13^\circ$ and $\phi=17^\circ$. This line is discretised 
  over npts points. At each point is the subroutine compute\_gravity\_at\_point called.
  \subsection{\tt compute\_hollow\_sphere\_volume}
+ This routine loops over all cells and adds up their volumes. 
+ Each cell volume is obtaines by means of a Gauss quadrature.
+ Measurements are written in {\sl fort.777}. 
  \subsection{\tt compute\_normals\_hollow\_sphere}
+ This routine computes the normal vector to the inner and outer boundaries of the 3D mesh
+ at the nodes. 
+ The vector is an average of several normal vectors computed on the cells containg the 
+ node in question.
  \subsection{\tt compute\_r\_theta\_phi\_hollow\_sphere}
  This subroutine computes $r$, $\theta$ and $\phi$ from $x,y,z$ for all 
  nodes of the hollow\_sphere mesh with
@@ -70,7 +80,11 @@
  \phi=\tan^{-1}_2 (y/x)
  \]
  \subsection{\tt compute\_shell\_area}
+ This routine computes the total shell area by looping over all shell cells and 
+ adding up their areas. Quadrilaterals are broken down in 4 triangles as explained in the paper. 
  \subsection{\tt compute\_shell\_distributions}
+ This routine computes the average edge length of a shell and its standard deviation.
+ Results are generated in the {\sl fort.889} file.
  \subsection{\tt compute\_triangle\_area}
  {\tt https://en.wikipedia.org/wiki/Heron\%27s\_formula }
  Heron's formula states that the area of a triangle whose sides have lengths a, b, and c is
@@ -82,9 +96,17 @@
  s=\frac{a+b+c}{2}
  \]
  \subsection{\tt generate\_quadrature\_points}
+ This routine computes the location of all quadrature points
+ \footnote{https://en.wikipedia.org/wiki/Gaussian\_quadrature} of the mesh. 
+ If the mesh is based on hexahedra (HS06,HS12) each cell counts 2x2x2 quadrature points
+ each with a weight of 1.
  \begin{center}
  \includegraphics[width=6cm]{images/elements}
  \end{center}
+ If the mesh is based on triangular prisms (HS20) it has 2x3 quadrature points, 
+ (2 in the radial direction and 3 in the triangular plane) and the weights are 1/6.
+ All q-points are generated in the reference cell and then mapped out to real 
+ cells by means of a linear mapping.
  For hexahedral elements the linear shape functions are:
  \begin{eqnarray}
  N_1(r,s,t) &=& (1-r)(1-s)(1-t)/8 \nonumber\\ 
@@ -107,8 +129,12 @@
  \end{eqnarray}
  \subsection{\tt map\_blocks}
  \subsubsection{HS06 - cubed sphere}
- See section 3.1 of \cite{puli07}
+ See section 3.1 of \cite{puli07}, or \cite{sado72,natl05}
+ 
+ \includegraphics[width=8cm]{images/sado72}
  \subsubsection{HS12 - CitcomS mesh}
+ See \cite{zhzm00,zhmt08}.
+ \includegraphics[width=8cm]{images/citcoms}
  \subsubsection{HS20 - Icosahedron}
  Let $t=(1+\sqrt{5})/2$, then the vertices of the icosahedron are 
  \[
@@ -147,26 +173,49 @@
  \includegraphics[width=12cm]{images/flat_icosahedron}
  \end{center}
  \subsection{\tt merge\_blocks}
+ This subroutine loops over all the blocks and merges them together to 
+ arrive at a full shell. In order to do so it needs to remove point duplicates 
+ and also merges the connectivity arrays of all the blocks.
  \subsection{\tt output\_blocks\_vtu}
+ If the {\sl generate\_vtu\_output} flag is true, 
+ it generates a vtu file for each block in the {\sl OUT} folder.
  \subsection{\tt output\_hollow\_sphere\_vtu}
+ If the {\sl generate\_vtu\_output} flag is true, 
+ it generates the {\sl hollow\_sphere.vtu} file in the {\sl OUT} folder. 
  \subsection{\tt output\_shell\_ascii}
+ If the {\sl generate\_ascii\_output} flag is set to true
+ it generates two ascii files in {\sl OUT/ASCII}. 
+ The first is shell\_xyz.ascii and contains the x,y,z position of all points of the shell.
+ The second is shell\_icon.ascii and contains the connectivity array.
  \subsection{\tt output\_shell\_lat\_lon}
- This subroutine exports $\theta$ and $\phi$ values of all points on the 
+ If the {\sl generate\_ascii\_output} flag is set to true
+ this subroutine exports $\theta$ and $\phi$ values of all points on the 
  shell in the file {\sl shell\_theta\_phi.dat} in {\sl OUT}.
  \subsection{\tt output\_shell\_vtu}
  If {\sl generate\_vtu\_output} is true 
  a vtu file of the shell is created in {\sl OUT}.
  \subsection{\tt project\_on\_sphere}
  This subroutine gets a radius $r$ value as argument and the current coordinates
- of a point. It returns the new coordinates of the point on a sphere 
+ of a point. It returns the new Cartesian coordinates of the point on a sphere 
  of radius $r$ with the same $\theta,\phi$.
  \subsection{\tt read\_command\_line\_options}
  This subroutine reads in the command line arguments
  \subsection{\tt read\_s40rts}
- \subsection{\tt }
+ This routine reads in the S40RTS data which should be located in the DATA folder. 
+ Please go to the webiste of the S40RTS author http://jritsema.earth.lsa.umich.edu//Research.html
+ and download the S40RTS.sph file.
+ The routine then loops over all nodes of the mesh and assigns them a $\delta \ln V_s$ value, 
+ and consequently a $\delta \rho$ value.
+ Note that this routine is triggered if the {\sl s40rts} flag is set to true.
  \subsection{\tt write\_positions}
+ This routine is part of vtu\_tools.f90
  \subsection{\tt write\_field\_dp}
+ This routine is part of vtu\_tools.f90
  \subsection{\tt write\_field\_int}
+ This routine is part of vtu\_tools.f90
  \subsection{\tt write\_icon}
+ This routine is part of vtu\_tools.f90
  \subsection{\tt write\_offsets}
+ This routine is part of vtu\_tools.f90
  \subsection{\tt write\_types}
+ This routine is part of vtu\_tools.f90

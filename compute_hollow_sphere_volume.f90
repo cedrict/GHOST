@@ -16,6 +16,9 @@ real(8) jcb3D(3,3),jcob,JxW,Vel
 
 !==================================================================================================!
 !@@ \subsection{\tt compute\_hollow\_sphere\_volume}
+!@@ This routine loops over all cells and adds up their volumes. 
+!@@ Each cell volume is obtaines by means of a Gauss quadrature.
+!@@ Measurements are written in {\sl fort.777}. 
 !==================================================================================================!
 
 call cpu_time(t3)

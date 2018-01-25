@@ -13,15 +13,18 @@ use structures
 implicit none
 
 integer ib,ip,nnp,jp,counter,nncell,ic,i
-logical(1),dimension(:),allocatable :: sides
-real(8),dimension(:),allocatable :: tempx,tempy,tempz
 integer(4), dimension(:),allocatable :: pointto
-logical,dimension(:),allocatable :: doubble
-real(8) distance,gxip,gyip,gzip
 integer, dimension(:), allocatable :: compact
+real(8),dimension(:),allocatable :: tempx,tempy,tempz
+real(8) distance,gxip,gyip,gzip
+logical,dimension(:),allocatable :: doubble
+logical(1),dimension(:),allocatable :: sides
 
 !==================================================================================================!
 !@@ \subsection{\tt merge\_blocks}
+!@@ This subroutine loops over all the blocks and merges them together to 
+!@@ arrive at a full shell. In order to do so it needs to remove point duplicates 
+!@@ and also merges the connectivity arrays of all the blocks.
 !==================================================================================================!
 
 call cpu_time(t3)
@@ -50,7 +53,7 @@ do ip=1,nblock*nnp
    pointto(ip)=ip
 end do
 
-distance=1.d-6*1!outer_radius
+distance=1.d-6*R2
 
 counter=0
 do ip=2,nblock*nnp

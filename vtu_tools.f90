@@ -8,6 +8,7 @@
 
 !==============================================================================!
 !@@ \subsection{\tt write\_positions}
+!@@ This routine is part of vtu\_tools.f90
 !==============================================================================!
 
 subroutine write_positions(np,x,y,z,iunit)
@@ -30,6 +31,7 @@ end subroutine
 
 !==============================================================================!
 !@@ \subsection{\tt write\_field\_dp}
+!@@ This routine is part of vtu\_tools.f90
 !==============================================================================!
 
 subroutine write_field_dp(np,array,fieldname,iunit)
@@ -52,6 +54,7 @@ end subroutine
 
 !==============================================================================!
 !@@ \subsection{\tt write\_field\_int}
+!@@ This routine is part of vtu\_tools.f90
 !==============================================================================!
 
 subroutine write_field_int(np,array,fieldname,iunit)
@@ -74,6 +77,7 @@ end subroutine
 
 !==============================================================================!
 !@@ \subsection{\tt write\_icon}
+!@@ This routine is part of vtu\_tools.f90
 !==============================================================================!
 
 subroutine write_icon(nv,nel,icon,iunit)
@@ -96,6 +100,7 @@ end subroutine
 
 !==============================================================================!
 !@@ \subsection{\tt write\_offsets}
+!@@ This routine is part of vtu\_tools.f90
 !==============================================================================!
 
 subroutine write_offsets(nv,nel,iunit)
@@ -113,6 +118,7 @@ end subroutine
 
 !==============================================================================!
 !@@ \subsection{\tt write\_types}
+!@@ This routine is part of vtu\_tools.f90
 !==============================================================================!
 
 subroutine write_types(nv,nel,iunit)

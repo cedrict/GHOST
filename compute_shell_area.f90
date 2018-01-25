@@ -18,6 +18,8 @@ real(8) area1,area2,area3,area4,area_stddev,area_avrg
 
 !==================================================================================================!
 !@@ \subsection{\tt compute\_shell\_area}
+!@@ This routine computes the total shell area by looping over all shell cells and 
+!@@ adding up their areas. Quadrilaterals are broken down in 4 triangles as explained in the paper. 
 !==================================================================================================!
 
 call cpu_time(t3)

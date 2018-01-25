@@ -19,9 +19,9 @@ implicit none
 mtype=06
 nlayer=8
 level=8
-rho=1.d3
+rho=1.d6
 equiangular=.true.
-s40rts=.true.
+s40rts=.false.
 
 !======================================!
 
@@ -58,8 +58,8 @@ end select
 open(unit=iunit,file='Log.out')
 
 generate_vtu_output=.true.
-generate_ascii_output=.false.
-compute_gravity=.false.
+generate_ascii_output=.true.
+compute_gravity=.true.
 
 !======================================!
 

@@ -15,9 +15,16 @@ implicit none
 !==============================================================================!
 !@@ \subsection{\tt map\_blocks}
 !@@ \subsubsection{HS06 - cubed sphere}
-!@@ See section 3.1 of \cite{puli07}
+!@@ See section 3.1 of \cite{puli07}, or \cite{sado72,natl05}
+!@@ 
+!@@ \includegraphics[width=8cm]{images/sado72}
 
 !@@ \subsubsection{HS12 - CitcomS mesh}
+
+!@@ See \cite{zhzm00,zhmt08}.
+
+!@@ \includegraphics[width=8cm]{images/citcoms}
+
 !@@ \subsubsection{HS20 - Icosahedron}
 !@@ Let $t=(1+\sqrt{5})/2$, then the vertices of the icosahedron are 
 !@@ \[

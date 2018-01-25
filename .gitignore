@@ -1,6 +1,7 @@
 *.o
 fort*
 OUT/*.vtu
+OUT/*.dat
 *.mod
 ghost
 DATA/*.sph
@@ -10,8 +11,10 @@ MANUAL/manual.bbl
 MANUAL/manual.blg
 MANUAL/manual.toc
 MANUAL/manual.aux
-MANUAL/manual.pdf
+MANUAL/manual.tex
+MANUAL/.DS*
+MANUAL/images
 *.log
 .DS*
-
+script*
 

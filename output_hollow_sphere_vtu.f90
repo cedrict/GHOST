@@ -16,6 +16,8 @@ integer i,ic,inner,outer
 
 !==================================================================================================!
 !@@ \subsection{\tt output\_hollow\_sphere\_vtu}
+!@@ If the {\sl generate\_vtu\_output} flag is true, 
+!@@ it generates the {\sl hollow\_sphere.vtu} file in the {\sl OUT} folder. 
 !==================================================================================================!
 
 call cpu_time(t3)

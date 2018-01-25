@@ -17,9 +17,14 @@ integer i,j,k,ip
 real(8) radius,latitude,longitude,densprem
 real, external :: sdot,splh
 
-
 !==================================================================================================!
 !@@ \subsection{\tt read\_s40rts}
+!@@ This routine reads in the S40RTS data which should be located in the DATA folder. 
+!@@ Please go to the webiste of the S40RTS author http://jritsema.earth.lsa.umich.edu//Research.html
+!@@ and download the S40RTS.sph file.
+!@@ The routine then loops over all nodes of the mesh and assigns them a $\delta \ln V_s$ value, 
+!@@ and consequently a $\delta \rho$ value.
+!@@ Note that this routine is triggered if the {\sl s40rts} flag is set to true.
 !==================================================================================================!
 
 call cpu_time(t3)
@@ -105,4 +110,5 @@ call cpu_time(t4) ; write(*,'(a,f10.3,a)') 'read_s40rts:',t4-t3,'s'
 
 end subroutine
 
+!==================================================================================================!
 !==================================================================================================!

@@ -24,6 +24,8 @@ real(8), dimension(:), allocatable :: dist_edges
 
 !==================================================================================================!
 !@@ \subsection{\tt compute\_shell\_distributions}
+!@@ This routine computes the average edge length of a shell and its standard deviation.
+!@@ Results are generated in the {\sl fort.889} file.
 !==================================================================================================!
 
 area_min=minval(shell%area)*0.99

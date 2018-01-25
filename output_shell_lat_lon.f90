@@ -16,7 +16,8 @@ integer ip
 
 !==================================================================================================!
 !@@ \subsection{\tt output\_shell\_lat\_lon}
-!@@ This subroutine exports $\theta$ and $\phi$ values of all points on the 
+!@@ If the {\sl generate\_ascii\_output} flag is set to true
+!@@ this subroutine exports $\theta$ and $\phi$ values of all points on the 
 !@@ shell in the file {\sl shell\_theta\_phi.dat} in {\sl OUT}.
 !==================================================================================================!
 

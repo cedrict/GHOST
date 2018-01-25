@@ -1,8 +1,8 @@
 .SUFFIXES:.out .o .s .c .F .f .f90 .e .r .y .yr .ye .l .p .sh .csh .h
 
 F90=gfortran 
-#FLAGS= -c -O3 -ffree-line-length-none
-FLAGS= -c -ffree-line-length-none -Wall -Wextra -fPIC -fmax-errors=1 -g -fcheck=all -fbacktrace -fbounds-check -ffpe-trap= -Wno-error=implicit-interface -Wno-error=conversion
+FLAGS= -c -O3 -ffree-line-length-none
+#FLAGS= -c -ffree-line-length-none -Wall -Wextra -fPIC -fmax-errors=1 -g -fcheck=all -fbacktrace -fbounds-check -ffpe-trap= -Wno-error=implicit-interface -Wno-error=conversion
 
 OBJECTS2D =\
 module_structures.o\
