@@ -24,9 +24,6 @@
  radius, and appends it to the current hollow sphere mesh from the inside out.
  \subsection{\tt check\_parameters}
  This routine performs a basic check on the nblock, level and nlayer parameter values.
- \subsection{\tt compute\_PREM\_density}
- This routine gets a radius $r<6371$km and returns the density 
- as given by the PREM model \cite{dzan81}. 
  \subsection{\tt hexahedron\_volume}
  This function computes the volume of any hexahedron, 
  following Eq.(12) of \cite{gran97}.
@@ -55,6 +52,9 @@
  at the nodes. 
  The vector is an average of several normal vectors computed on the cells containg the 
  node in question.
+ \subsection{\tt compute\_PREM\_density}
+ This routine gets a radius $r<6371$km and returns the density 
+ as given by the PREM model \cite{dzan81}. 
  \subsection{\tt compute\_r\_theta\_phi\_hollow\_sphere}
  This subroutine computes $r$, $\theta$ and $\phi$ from $x,y,z$ for all 
  nodes of the hollow\_sphere mesh with
@@ -173,9 +173,21 @@
  \includegraphics[width=12cm]{images/flat_icosahedron}
  \end{center}
  \subsection{\tt merge\_blocks}
- This subroutine loops over all the blocks and merges them together to 
+ This subroutine loops over all the (shell) blocks and merges them together to 
  arrive at a full shell. In order to do so it needs to remove point duplicates 
  and also merges the connectivity arrays of all the blocks.
+ All shell blocks (x,y,z coordinates and hull information) are first merged 
+ into temporary arrays (tempx, tempy,tempz,sides) of size nblock*nnp.
+ A logical array doubble of the same size is then set to true when two points 
+ of two different blocks share the same position. At the same time 
+ another integer array pointto is used: if node m is colocated with point n then 
+ pointto(m)=n (for n$<$m).
+ The 'real' total number of nodes of the assembled shell can then be computed while
+ the total number of cells simply is the number of blocks multiplied by the 
+ number of cells each block contains.
+ All arrays pertaining to this assembled shell can then be allocated. 
+ Finally the doubble and pointto arrays are used to construct a single set of coordinates and 
+ a connectivity array for an assembled shell without duplicates. 
  \subsection{\tt output\_blocks\_vtu}
  If the {\sl generate\_vtu\_output} flag is true, 
  it generates a vtu file for each block in the {\sl OUT} folder.
