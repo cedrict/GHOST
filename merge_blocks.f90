@@ -22,9 +22,21 @@ logical(1),dimension(:),allocatable :: sides
 
 !==================================================================================================!
 !@@ \subsection{\tt merge\_blocks}
-!@@ This subroutine loops over all the blocks and merges them together to 
+!@@ This subroutine loops over all the (shell) blocks and merges them together to 
 !@@ arrive at a full shell. In order to do so it needs to remove point duplicates 
 !@@ and also merges the connectivity arrays of all the blocks.
+!@@ All shell blocks (x,y,z coordinates and hull information) are first merged 
+!@@ into temporary arrays (tempx, tempy,tempz,sides) of size nblock*nnp.
+!@@ A logical array doubble of the same size is then set to true when two points 
+!@@ of two different blocks share the same position. At the same time 
+!@@ another integer array pointto is used: if node m is colocated with point n then 
+!@@ pointto(m)=n (for n$<$m).
+!@@ The 'real' total number of nodes of the assembled shell can then be computed while
+!@@ the total number of cells simply is the number of blocks multiplied by the 
+!@@ number of cells each block contains.
+!@@ All arrays pertaining to this assembled shell can then be allocated. 
+!@@ Finally the doubble and pointto arrays are used to construct a single set of coordinates and 
+!@@ a connectivity array for an assembled shell without duplicates. 
 !==================================================================================================!
 
 call cpu_time(t3)
